@@ -6,9 +6,6 @@ from copy import deepcopy
 from utils.utils import extract_id, get_most_common_color
 import pandas as pd
 
-
-
-
 if __name__ == "__main__":
     x = set()
     dataset = load_dataset("huggingnft/cryptopunks")
