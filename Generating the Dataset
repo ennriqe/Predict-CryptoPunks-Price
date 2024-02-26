@@ -71,7 +71,7 @@ FROM
   LEFT JOIN bayc_sales AS bs ON ts.day = bs.day
 
 
-To query the images of the punk that we use to extract the skin color of the punks we use and run label_skin.py
+To query the images of the punks that we use to extract the skin color of the punks we use and run label_skin.py and get the data from https://huggingface.co/datasets/huggingnft/cryptopunks
 
 To query the floor price today we use the OpenSea API using get_punk_floor_today().
 
