@@ -1,0 +1,80 @@
+To form the dataset you need:
+
+To query all crypto punk trades, we do so using the following Dune query: 
+SELECT * FROM cryptopunks.trades
+https://dune.com/queries/3469248
+You can download the data to a CSV by having Dune Plus.
+
+To query the floor price we do so using this duen query:
+
+WITH
+  time_series AS (
+    SELECT
+      day
+    FROM
+      UNNEST (
+        SEQUENCE(
+          TRY_CAST('2017-01-01' AS TIMESTAMP),
+          CAST(
+            CAST(
+              CAST(DATE_TRUNC('day', CURRENT_TIMESTAMP) AS TIMESTAMP) AS TIMESTAMP
+            ) AS TIMESTAMP
+          ),
+          INTERVAL '1' day
+        )
+      ) AS _u (day)
+  ),
+  cryptopunk_sales AS (
+    SELECT
+      DATE_TRUNC('day', evt_block_time) AS day,
+      APPROX_PERCENTILE(value / CAST(1e18 AS DOUBLE), 0.1) AS crypto_punk_median
+    FROM
+      cryptopunks_ethereum.CryptoPunksMarket_evt_PunkBought
+    WHERE
+      NOT evt_tx_hash IN (
+        0x92488a00dfa0746c300c66a716e6cc11ba9c0f9d40d8c58e792cc7fcebf432d0,
+        0xc6820189dcc84bcd41ee012549284a6727d76cb2d2cc0db376ca2f928556ab0f
+      )
+      AND value > 0
+    GROUP BY
+      1
+  ),
+  bayc_sales AS (
+    SELECT
+      DATE_TRUNC('day', block_time) AS day,
+      APPROX_PERCENTILE(amount_original, 0.1) AS bayc_median
+    FROM
+      nft.trades
+    WHERE
+      blockchain = 'ethereum'
+      AND nft_contract_address = 0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d
+      AND NOT token_id IS NULL
+      AND currency_symbol IN ('ETH', 'WETH')
+    GROUP BY
+      1
+  )
+SELECT
+  ts.day,
+  AVG(crypto_punk_median) OVER (
+    ORDER BY
+      ts.day ROWS BETWEEN TRY_CAST('{{Moving Average}}' AS INTEGER) PRECEDING
+      AND CURRENT ROW
+  ) AS "CP Price",
+  AVG(bayc_median) OVER (
+    ORDER BY
+      ts.day ROWS BETWEEN TRY_CAST('{{Moving Average}}' AS INTEGER) PRECEDING
+      AND CURRENT ROW
+  ) AS "BAYC Price"
+FROM
+  time_series AS ts
+  LEFT JOIN cryptopunk_sales AS cs ON ts.day = cs.day
+  LEFT JOIN bayc_sales AS bs ON ts.day = bs.day
+
+
+To query the images of the punk that we use to extract the skin color of the punks we use and run label_skin.py
+
+To query the floor price today we use the OpenSea API using get_punk_floor_today().
+
+To query the ETH price we query the CoinGecko API using get_ethereum_price_history().
+
+To generate the whole dataset we use generate_dataset.py
