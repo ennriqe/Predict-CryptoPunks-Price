@@ -90,13 +90,13 @@ def plot_scatter_predictions_and_actuals_with_OLS(ax, X_test_subset, title):
     ax.set_title(title)
     ax.legend()
     
-def exclude_top_and_bottom_5_percent(series):
+def exclude_top_and_bottom_x_percent(series, pecent):
     # Exclude the lowest 5%
-    lower_threshold = np.percentile(series, 5)
+    lower_threshold = np.percentile(series, pecent)
     filtered_series = series[series > lower_threshold]
     
     # Exclude the top 5%
-    upper_threshold = np.percentile(filtered_series, 95)
+    upper_threshold = np.percentile(filtered_series, 100 - pecent)
     final_filtered_series = filtered_series[filtered_series < upper_threshold]
     
     return final_filtered_series
@@ -136,3 +136,16 @@ def get_ethereum_price_history():
     eth = pd.DataFrame({'Date': dates, 'Ethereum_Price': eth_prices})
 
     return eth
+
+import requests
+def get_punk_floor_today():
+    url = "https://api.opensea.io/api/v2/collections/cryptopunks/stats"
+
+    headers = {
+        "accept": "application/json",
+        "x-api-key": "d2162577acee4cdfa2cf20e92f37409e"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    return response.json()['intervals'][1]['average_price']
