@@ -100,3 +100,22 @@ To query the floor price today we use the OpenSea API using get_punk_floor_today
 To query the ETH price we query the CoinGecko API using get_ethereum_price_history().
 
 To generate the whole dataset we use generate_dataset.py
+
+#Process and Label Data
+## Step 1: Process and Label Data
+
+- **Run `label_skin.py`:** Execute this script to process the downloaded punk images and label them based on skin color. This step is crucial for incorporating visual traits into the dataset.
+
+## Step 2: Generate the Dataset
+
+- **Execute `generate_dataset.py`:** This script integrates the trade data, floor prices, skin color information, current floor price, and Ethereum price history into a comprehensive dataset. Make sure all prerequisite data from Step 1 is ready before running this script.
+
+## Step 3: Train and perform predictions
+
+- **Execute the Notebook:** Once the dataset is prepared, run the provided `giza_build.ipynb` to analyze the data. The notebook includes the steps listed [here](https://actions.gizatech.xyz/tutorials/build-a-verifiable-neural-network-with-giza-actions) with the giza-actions
+
+---
+
+### Prerequisites
+Ensure you have installed all required libraries and have API access set up for OpenSea. Follow the installation instructions and API documentation for each service to get started.
+
