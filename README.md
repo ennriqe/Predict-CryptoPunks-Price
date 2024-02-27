@@ -114,6 +114,22 @@ To generate the whole dataset we use generate_dataset.py
 
 - **Execute the Notebook:** Once the dataset is prepared, run the provided `giza_build.ipynb` to analyze the data. The notebook includes the steps listed [here](https://actions.gizatech.xyz/tutorials/build-a-verifiable-neural-network-with-giza-actions) with the giza-actions
 
+
+## Alternative Model outside of Giza
+
+- We also include the notebook Predict **CryptoPunks Prices LightGBM.ipynb** that trains a LightGBM model, a boosting gradient model, this model ended up not being compatible with Giza's platform, but it achieved good results and is more interpretabla than the Naural Network. This notebook plots the price of ETH, mean, and Floor price of the Punks, it plots the training of the model and the errors. It shows the top 20 features by feature importance and uses Shap to explain AI estimation and how each feature affects the output.
+![image](https://github.com/ennriqe/Predict-CryptoPunks-Price/assets/36388434/27074872-37a9-4573-b60a-b5d2b4949bf6)
+
+![image](https://github.com/ennriqe/Predict-CryptoPunks-Price/assets/36388434/8066cbea-3807-41c3-9fe6-52a914503c19)
+
+
+## Errors when trying to use GizaModel with verifiable=True
+
+- Unfortunately we were not able to submit a version that run the proof that the output of the model was produced by our model using Giza's framework, we kept getting some small errors that we could not solve. 
+<p align="center">
+  <img src="https://github.com/ennriqe/Predict-CryptoPunks-Price/assets/36388434/e60fd882-8d17-4d42-ae29-1934c0343de8" alt="Your Image Description">
+</p>
+
 ---
 
 ### Prerequisites
