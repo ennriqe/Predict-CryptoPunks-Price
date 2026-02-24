@@ -2,6 +2,11 @@
 
 Research project for estimating CryptoPunks fair value from on-chain sales history, market context, and image-derived attributes.
 
+## Result
+
+- **1st prize** (Giza / zkML hackathon project context)
+- Announcement context: https://x.com/gizatechxyz/status/1764699361252982974
+
 ## TL;DR
 
 - Dataset built from historical CryptoPunks sales, floor-price series, ETH price history, and punk metadata
